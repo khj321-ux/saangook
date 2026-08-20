@@ -56,24 +56,25 @@ p { margin: 0; }
 
 .site-header { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid rgba(255,255,255,.18); background: var(--color-primary); color: white; }
 .header-inner { display: flex; min-height: 5.2rem; align-items: center; justify-content: space-between; gap: 2rem; }
-.brand { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; letter-spacing: -.03em; }
+.brand { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 800; line-height: 1; letter-spacing: .02em; white-space: nowrap; }
 .brand small { display: block; margin-top: -.35rem; color: rgba(255,255,255,.7); font-family: var(--font-sans); font-size: .63rem; font-weight: 500; letter-spacing: .12em; }
 .nav-wrap, .nav-list { display: flex; align-items: center; }
 .nav-list { gap: 2rem; margin: 0; padding: 0; list-style: none; }
 .nav-list a { font-size: .93rem; }
 .nav-list a[aria-current="page"] { color: white; font-weight: 800; text-decoration: underline; text-underline-offset: .35em; }
-.header-cta { min-height: 2.9rem; margin-left: 1.7rem; padding: .55rem 1.15rem; border-color: white; background: transparent; color: white; font-size: .92rem; }
+.header-cta { min-height: 2.5rem; margin-left: 1.7rem; padding: .4rem .9rem; border-color: white; background: transparent; color: white; font-size: .86rem; }
 .menu-button { display: none; width: 2.8rem; height: 2.8rem; border: 0; background: transparent; color: white; font-size: 1.5rem; }
 
 .hero { min-height: 76vh; display: grid; align-items: center; overflow: hidden; background: var(--color-cream); }
 .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; width: min(calc(100% - 7rem), 1040px); align-items: center; gap: clamp(2rem, 6vw, 6rem); padding-block: 4rem; }
 .hero-copy { display: flex; align-self: stretch; flex-direction: column; justify-content: flex-end; padding-block: clamp(1rem, 3vw, 2rem); }
+.hero-content { width: fit-content; }
 .hero-copy h1 { font-size: clamp(1.775rem, 3.875vw, 3.175rem); }
 .hero-title-line { display: block; white-space: nowrap; }
-.hero-name { margin-top: .4em; color: var(--color-primary); font-size: clamp(2.432rem, 5.248vw, 4.224rem); line-height: 1.1; }
+.hero-name { margin-top: .4em; color: var(--color-primary); font-size: clamp(2.432rem, 5.248vw, 4.224rem); line-height: 1.1; text-align: center; }
 .hero-title-line.accent { color: inherit; }
 .hero-copy .lead { margin-top: 1.7rem; }
-.hero-copy .button-row { gap: clamp(1.5rem, 4vw, 3rem); margin-top: 2rem; padding-left: 2rem; }
+.hero-copy .button-row { justify-content: center; gap: clamp(1.5rem, 4vw, 3rem); margin-top: 2rem; }
 .hero-copy .button-row .button { min-height: 2.9rem; padding: .55rem 1.15rem; font-size: .92rem; }
 .hero-art, .placeholder { position: relative; overflow: hidden; background: var(--color-cream); }
 .hero-art { aspect-ratio: 4 / 5; }
