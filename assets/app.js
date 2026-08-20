@@ -12,7 +12,6 @@ document.body.insertAdjacentHTML("afterbegin", `
   <a class="skip-link" href="#main">본문으로 바로가기</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">스페이스 산국</a>
       <button class="menu-button" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="site-nav">☰</button>
       <nav class="nav-wrap" id="site-nav" aria-label="주 메뉴">
         <ul class="nav-list">${navItems.map(([key, label]) => `<li><a href="${routes[key]}" ${page === key || (page === "program-detail" && key === "programs") || (page === "archive-detail" && key === "archive") ? 'aria-current="page"' : ""}>${label}</a></li>`).join("")}</ul>
@@ -94,3 +93,16 @@ const renderers = {
 if (page === "program-detail") renderers.detail(false);
 else if (page === "archive-detail") renderers.detail(true);
 else (renderers[page] || renderers.home)();
+
+function restartHeroNameAnimation() {
+  const heroName = document.querySelector(".hero-name");
+  if (!heroName) return;
+  heroName.classList.remove("is-entering");
+  void heroName.offsetWidth;
+  heroName.classList.add("is-entering");
+}
+
+restartHeroNameAnimation();
+window.addEventListener("pageshow", event => {
+  if (event.persisted) restartHeroNameAnimation();
+});
