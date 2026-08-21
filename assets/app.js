@@ -39,11 +39,19 @@ menuButton.addEventListener("click", () => {
   document.body.classList.toggle("menu-open", open);
 });
 
-function placeholder(className = "") { return `<div class="placeholder ${className}" role="img" aria-label="추후 실제 사진으로 교체할 placeholder 이미지"></div>`; }
+const imagePlaceholderLabel = "추후 실제 사진으로 교체할 placeholder 이미지";
+function media(path, className = "", alt = "", style = "") {
+  const styleAttribute = style ? ` style="${style}"` : "";
+  if (!path) return `<div class="placeholder ${className}"${styleAttribute} role="img" aria-label="${imagePlaceholderLabel}"></div>`;
+  return `<div class="${className}"${styleAttribute}><img data-managed-image src="${path}" alt="${alt}"></div>`;
+}
+function spaceGallery(paths = []) {
+  return Array.from({ length: 3 }, (_, index) => media(paths[index], "gallery-image", `공간 사진 ${index + 1}`)).join("");
+}
 function card(item, archive = false) {
   const href = archive ? `archive-detail.html?id=${item.id}` : `program.html?id=${item.id}`;
   return `<article class="card" data-category="${item.category}">
-    <a href="${href}">${placeholder("card-image").replace('class="placeholder card-image"', `class="placeholder card-image" style="--card-color:${item.color}"`)}<div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><h3>${item.title}</h3></a>
+    <a href="${href}">${media(item.images?.main, "card-image", `${item.title} 대표 이미지`, `--card-color:${item.color}`)}<div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><h3>${item.title}</h3></a>
     <p class="card-desc">${item.summary}</p><p class="card-info">${item.schedule}<br>${item.host}</p>
   </article>`;
 }
@@ -58,7 +66,7 @@ const ended = programs.filter(p => p.status === "종료");
 
 const renderers = {
   home() {
-    main.innerHTML = `<section class="hero"><div class="container hero-grid"><div class="hero-copy"><div class="hero-content"><h1><span class="hero-title-line">생각이 머물고,</span><span class="hero-title-line accent">대화가 시작되는 곳</span><span class="hero-title-line hero-name">스페이스 산국</span></h1><div class="button-row"><a class="button" href="programs.html">프로그램 보기</a><a class="button button--outline" href="space.html">공간 둘러보기</a></div></div></div><div class="hero-art"><img src="assets/hero-bench.jpg" alt="푸른 나무 아래 놓인 빈 벤치"></div></div></section>
+    main.innerHTML = `<section class="hero"><div class="container hero-grid"><div class="hero-copy"><div class="hero-content"><h1><span class="hero-title-line">생각이 머물고,</span><span class="hero-title-line accent">대화가 시작되는 곳</span><span class="hero-title-line hero-name">스페이스 산국</span></h1><div class="button-row"><a class="button" href="programs.html">프로그램 보기</a><a class="button button--outline" href="space.html">공간 둘러보기</a></div></div></div>${media(site.images.home.hero, "hero-art", site.images.home.heroAlt)}</div></section>
     <section class="section section--paper"><div class="container intro-grid"><div><p class="eyebrow">ABOUT THE SPACE</p><h2>읽고 사유하는 사람들을 위한 여백</h2></div><div class="intro-copy"><p class="lead">강의와 북클럽, 작은 세미나가 열리고 각자의 생각이 자연스럽게 만나는 공간을 지향합니다.</p><p class="notice">이 소개는 방향 확인을 위한 placeholder 문구입니다.</p><a class="text-link" href="about.html">공간의 이야기</a></div></div></section>
     <section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow">CURRENT PROGRAMS</p><h2>지금의 프로그램</h2></div><a class="text-link" href="programs.html">전체 프로그램</a></div><div class="card-grid">${active.map(p => card(p)).join("")}</div></div></section>
     <section class="section section--paper"><div class="container rental-panel"><p class="eyebrow">SPACE RENTAL</p><h2>모임과 배움에 필요한<br>차분한 공간</h2><p class="lead">2시간 기본 대관과 3시간 이상 장시간 대관을 구분해 안내합니다. 가격과 운영 정보는 준비 중입니다.</p>${bookingButtons()}</div></section>
@@ -66,7 +74,7 @@ const renderers = {
     <section class="section section--paper"><div class="container contact-grid"><div><p class="eyebrow">VISIT</p><h2>찾아오는 길</h2></div><ul class="info-list"><li><strong>주소</strong><span>${site.address}</span></li><li><strong>연락처</strong><span>${site.contact}</span></li><li><strong>이용 시간</strong><span>${site.hours}</span></li></ul></div></section>`;
   },
   space() {
-    main.innerHTML = `${pageHero("SPACE", "공간", "배움과 대화를 위해 잠시 머물 수 있는 공간입니다. 실제 소개와 사진은 추후 교체됩니다.")}<section class="section"><div class="container gallery">${placeholder()}${placeholder()}${placeholder()}</div></section><section class="section section--paper"><div class="container detail-grid"><div><p class="eyebrow">SPACE INFORMATION</p><h2>공간 이용 안내</h2><p class="lead">현재 항목과 배치를 확인하기 위한 placeholder 정보입니다.</p></div><ul class="info-list"><li><strong>수용 인원</strong><span>인원 정보 준비 중</span></li><li><strong>시설·비품</strong><span>테이블, 의자 등 세부 정보 준비 중</span></li><li><strong>이용 시간</strong><span>${site.hours}</span></li><li><strong>대관 요금</strong><span>가격 정보 준비 중</span></li><li><strong>위치</strong><span>${site.address}</span></li></ul></div></section><section class="section" id="rental"><div class="container rental-grid"><div class="rental-panel"><p class="eyebrow">2 HOURS</p><h2>2시간 기본 대관</h2><p class="lead">향후 네이버 예약과 Npay 결제로 연결합니다. 현재는 실제 URL이 없어 버튼이 비활성 상태입니다.</p>${bookingButtons()}</div><div><p class="eyebrow">LONG SESSION</p><h2>3시간 이상 대관</h2><p class="lead">희망 일정과 이용 목적을 확인한 뒤 운영자가 가능 시간을 협의하는 방식입니다.</p><ul class="info-list"><li><strong>01</strong><span>희망 일정과 이용 목적 문의</span></li><li><strong>02</strong><span>운영자 일정 확인 및 시간 협의</span></li><li><strong>03</strong><span>승인 후 개별 결제 안내</span></li></ul></div></div></section><section class="section section--paper"><div class="container"><div class="section-head"><div><p class="eyebrow">GUIDE</p><h2>이용 안내와 주의사항</h2></div></div><div class="prose"><p>구체적인 이용 규칙, 취소·환불 기준, 정리 방법은 실제 운영 정책이 확정된 뒤 제공됩니다.</p><p class="notice">현재 문구는 placeholder이며 실제 예약 전 운영자의 최종 안내가 필요합니다.</p></div></div></section>`;
+    main.innerHTML = `${pageHero("SPACE", "공간", "배움과 대화를 위해 잠시 머물 수 있는 공간입니다. 실제 소개와 사진은 추후 교체됩니다.")}<section class="section"><div class="container gallery">${spaceGallery(site.images.space.gallery)}</div></section><section class="section section--paper"><div class="container detail-grid"><div><p class="eyebrow">SPACE INFORMATION</p><h2>공간 이용 안내</h2><p class="lead">현재 항목과 배치를 확인하기 위한 placeholder 정보입니다.</p></div><ul class="info-list"><li><strong>수용 인원</strong><span>인원 정보 준비 중</span></li><li><strong>시설·비품</strong><span>테이블, 의자 등 세부 정보 준비 중</span></li><li><strong>이용 시간</strong><span>${site.hours}</span></li><li><strong>대관 요금</strong><span>가격 정보 준비 중</span></li><li><strong>위치</strong><span>${site.address}</span></li></ul></div></section><section class="section" id="rental"><div class="container rental-grid"><div class="rental-panel"><p class="eyebrow">2 HOURS</p><h2>2시간 기본 대관</h2><p class="lead">향후 네이버 예약과 Npay 결제로 연결합니다. 현재는 실제 URL이 없어 버튼이 비활성 상태입니다.</p>${bookingButtons()}</div><div><p class="eyebrow">LONG SESSION</p><h2>3시간 이상 대관</h2><p class="lead">희망 일정과 이용 목적을 확인한 뒤 운영자가 가능 시간을 협의하는 방식입니다.</p><ul class="info-list"><li><strong>01</strong><span>희망 일정과 이용 목적 문의</span></li><li><strong>02</strong><span>운영자 일정 확인 및 시간 협의</span></li><li><strong>03</strong><span>승인 후 개별 결제 안내</span></li></ul></div></div></section><section class="section section--paper"><div class="container"><div class="section-head"><div><p class="eyebrow">GUIDE</p><h2>이용 안내와 주의사항</h2></div></div><div class="prose"><p>구체적인 이용 규칙, 취소·환불 기준, 정리 방법은 실제 운영 정책이 확정된 뒤 제공됩니다.</p><p class="notice">현재 문구는 placeholder이며 실제 예약 전 운영자의 최종 안내가 필요합니다.</p></div></div></section>`;
   },
   programs() {
     main.innerHTML = `${pageHero("PROGRAMS", "프로그램", "현재 모집하거나 진행 중인 강의, 북클럽, 세미나·모임을 소개합니다.")}<section class="section"><div class="container"><div class="filters" aria-label="프로그램 카테고리 필터"><button class="filter active" data-filter="전체">전체</button>${[...new Set(active.map(p => p.category))].map(c => `<button class="filter" data-filter="${c}">${c}</button>`).join("")}</div><div class="card-grid" id="program-grid">${active.map(p => card(p)).join("")}</div></div></section>`;
@@ -86,13 +94,25 @@ const renderers = {
     const allowed = archive ? ended : active;
     const item = allowed.find(p => p.id === id) || allowed[0];
     document.title = `${item.title} | ${site.name}`;
-    main.innerHTML = `${pageHero(`${archive ? "ARCHIVE" : "PROGRAM"} · ${item.category}`, item.title, item.summary)}<section class="section"><div class="container detail-grid">${placeholder("detail-image")}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>`}</div></div></section><section class="section section--paper"><div class="container prose"><p class="eyebrow">DETAIL</p><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
+    main.innerHTML = `${pageHero(`${archive ? "ARCHIVE" : "PROGRAM"} · ${item.category}`, item.title, item.summary)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>`}</div></div></section><section class="section section--paper"><div class="container prose"><p class="eyebrow">DETAIL</p><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
   }
 };
 
 if (page === "program-detail") renderers.detail(false);
 else if (page === "archive-detail") renderers.detail(true);
 else (renderers[page] || renderers.home)();
+
+document.querySelectorAll("img[data-managed-image]").forEach(image => {
+  const showPlaceholder = () => {
+    const frame = image.parentElement;
+    frame.classList.add("placeholder");
+    frame.setAttribute("role", "img");
+    frame.setAttribute("aria-label", imagePlaceholderLabel);
+    image.remove();
+  };
+  image.addEventListener("error", showPlaceholder, { once: true });
+  if (image.complete && image.naturalWidth === 0) showPlaceholder();
+});
 
 function restartHeroNameAnimation() {
   const heroName = document.querySelector(".hero-name");

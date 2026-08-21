@@ -5,7 +5,16 @@ window.SITE_DATA = {
     address: "주소 준비 중",
     contact: "연락처 준비 중",
     hours: "이용 시간 준비 중",
-    naverBookingUrl: null
+    naverBookingUrl: null,
+    images: {
+      home: {
+        hero: "assets/images/home/hero-bench.jpg",
+        heroAlt: "푸른 나무 아래 놓인 빈 벤치"
+      },
+      space: {
+        gallery: [null, null, null]
+      }
+    }
   },
   programs: [
     {
@@ -18,6 +27,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "참가비 준비 중",
       color: "#d8c5b4",
+      images: { main: null, gallery: [] },
       description: ["어렵게 느껴졌던 철학 텍스트를 자신의 속도로 읽고, 서로의 질문을 경청합니다.", "세부 도서와 회차별 내용은 실제 프로그램 확정 후 안내할 예정입니다. 현재 내용은 화면 구성을 위한 sample data입니다."]
     },
     {
@@ -30,6 +40,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "참가비 준비 중",
       color: "#b9c9bd",
+      images: { main: null, gallery: [] },
       description: ["각자 읽어 온 책에서 마음에 남은 한 문장을 골라 함께 이야기합니다.", "책을 완독하지 않아도 참여할 수 있다는 설정의 sample 프로그램이며 실제 모집 정보가 아닙니다."]
     },
     {
@@ -42,6 +53,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "참가비 준비 중",
       color: "#e2c7b8",
+      images: { main: null, gallery: [] },
       description: ["익숙한 도시를 낯선 시선으로 다시 보고 장소가 품은 이야기를 나눕니다.", "세부 일정과 진행 방식은 준비 중이며, 현재 내용은 레이아웃 확인용 sample data입니다."]
     },
     {
@@ -54,6 +66,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "종료된 프로그램",
       color: "#c7b9a9",
+      images: { main: null, gallery: [] },
       description: ["여섯 번의 저녁 동안 한 권의 고전을 나누어 읽었다는 설정의 기록입니다.", "실제 후기와 사진이 준비되면 이 자리에 프로그램의 과정과 참여자 기록을 담습니다. 현재는 sample archive입니다."]
     },
     {
@@ -66,6 +79,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "종료된 프로그램",
       color: "#d9c2ba",
+      images: { main: null, gallery: [] },
       description: ["작품에 대한 지식보다 자신의 관찰과 질문에서 출발한 대화 모임입니다.", "실제 운영 기록이 없는 sample data로, 이후 대표 사진과 모임 기록으로 교체합니다."]
     },
     {
@@ -78,6 +92,7 @@ window.SITE_DATA = {
       host: "진행자 이름 (sample)",
       fee: "종료된 프로그램",
       color: "#c6d0c4",
+      images: { main: null, gallery: [] },
       description: ["평범한 하루에서 글감을 발견하고 한 편의 짧은 글을 완성했다는 설정입니다.", "현재는 아카이브 상세 화면 확인을 위한 sample data입니다."]
     }
   ]
