@@ -6,7 +6,7 @@ const routes = {
 };
 
 const page = document.body.dataset.page;
-const navItems = [["home", "홈"], ["space", "공간"], ["programs", "프로그램"], ["archive", "아카이브"], ["about", "소개"]];
+const navItems = [["home", "홈"], ["about", "소개"], ["space", "공간"], ["programs", "프로그램"], ["archive", "아카이브"]];
 
 document.body.insertAdjacentHTML("afterbegin", `
   <a class="skip-link" href="#main">본문으로 바로가기</a>
@@ -91,8 +91,15 @@ const renderers = {
   },
   detail(archive = false) {
     const id = new URLSearchParams(location.search).get("id");
-    const allowed = archive ? ended : active;
-    const item = allowed.find(p => p.id === id) || allowed[0];
+    const item = programs.find(p => p.id === id);
+    if (!item || (archive && item.status !== "종료")) {
+      main.innerHTML = `${pageHero("PROGRAM", "해당 프로그램을 찾을 수 없습니다.", "주소가 올바른지 확인하거나 목록에서 프로그램을 다시 선택해 주세요.")}<section class="section"><div class="container"><div class="button-row"><a class="button" href="programs.html">프로그램 목록</a><a class="button button--outline" href="archive.html">아카이브</a></div></div></section>`;
+      return;
+    }
+    if (!archive && item.status === "종료") {
+      location.replace(`archive-detail.html?id=${encodeURIComponent(item.id)}`);
+      return;
+    }
     document.title = `${item.title} | ${site.name}`;
     main.innerHTML = `${pageHero(`${archive ? "ARCHIVE" : "PROGRAM"} · ${item.category}`, item.title, item.summary)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>`}</div></div></section><section class="section section--paper"><div class="container prose"><p class="eyebrow">DETAIL</p><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
   }
