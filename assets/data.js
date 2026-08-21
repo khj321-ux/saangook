@@ -1,6 +1,6 @@
 window.SITE_DATA = {
   site: {
-    name: "공간 이름 (가칭)",
+    name: "공간ㅁㄴㅇㄹ호 이름 (가칭)",
     description: "읽고, 이야기하고, 사유하는 시간이 머무는 인문·문화 공간입니다.",
     address: "주소 준비 중",
     contact: "연락처 준비 중",
