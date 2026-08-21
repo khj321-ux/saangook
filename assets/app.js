@@ -58,7 +58,7 @@ function card(item, archive = false) {
 function bookingButtons() {
   return `<div class="button-row"><span class="button" aria-disabled="true" title="실제 네이버 예약 URL 준비 중">2시간 대관 예약하기</span><span class="button button--outline" aria-disabled="true" title="문의 방법 준비 중">3시간 이상 대관 문의</span></div><p class="notice">※ 실제 예약 URL과 문의 방법이 준비되면 연결됩니다.</p>`;
 }
-function pageHero(eyebrow, title, lead) { return `<section class="page-hero"><div class="container"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="lead">${lead}</p></div></section>`; }
+function pageHero(eyebrow, title, lead, className = "") { return `<section class="page-hero${className ? ` ${className}` : ""}"><div class="container"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="lead">${lead}</p></div></section>`; }
 
 const main = document.querySelector("#main");
 const active = programs.filter(p => p.status !== "종료");
@@ -93,7 +93,7 @@ const renderers = {
     const id = new URLSearchParams(location.search).get("id");
     const item = programs.find(p => p.id === id);
     if (!item || (archive && item.status !== "종료")) {
-      main.innerHTML = `${pageHero("PROGRAM", "해당 프로그램을 찾을 수 없습니다.", "주소가 올바른지 확인하거나 목록에서 프로그램을 다시 선택해 주세요.")}<section class="section"><div class="container"><div class="button-row"><a class="button" href="programs.html">프로그램 목록</a><a class="button button--outline" href="archive.html">아카이브</a></div></div></section>`;
+      main.innerHTML = `${pageHero("PROGRAM", "해당 프로그램을 찾을 수 없습니다.", "주소가 올바른지 확인하거나 목록에서 프로그램을 다시 선택해 주세요.", "page-hero--notice")}<section class="section"><div class="container"><div class="button-row"><a class="button" href="programs.html">프로그램 목록</a><a class="button button--outline" href="archive.html">아카이브</a></div></div></section>`;
       return;
     }
     if (!archive && item.status === "종료") {

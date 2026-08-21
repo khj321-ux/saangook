@@ -106,6 +106,7 @@ p { margin: 0; }
 .rental-panel .notice { color: rgba(255,255,255,.66); }
 
 .page-hero { padding: clamp(5rem, 11vw, 9rem) 0 clamp(3.5rem, 8vw, 6rem); border-bottom: 1px solid var(--color-line); }
+.page-hero--notice h1 { font-size: clamp(2rem, 4vw, 3.4rem); }
 .page-hero .lead { margin-top: 1.5rem; }
 .gallery { display: grid; grid-template-columns: 1.4fr .6fr; grid-template-rows: 1fr 1fr; gap: 1rem; min-height: 540px; }
 .gallery > :first-child { grid-row: 1 / 3; }
