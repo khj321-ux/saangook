@@ -125,8 +125,9 @@ function restartHeroNameAnimation() {
   const heroName = document.querySelector(".hero-name");
   if (!heroName) return;
   heroName.classList.remove("is-entering");
-  void heroName.offsetWidth;
-  heroName.classList.add("is-entering");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => heroName.classList.add("is-entering"));
+  });
 }
 
 restartHeroNameAnimation();
