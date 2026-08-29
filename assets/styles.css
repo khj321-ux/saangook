@@ -74,7 +74,8 @@ p { margin: 0; }
 .hero-content { width: fit-content; }
 .hero-copy h1 { font-size: clamp(1.775rem, 3.875vw, 3.175rem); }
 .hero-title-line { display: block; white-space: nowrap; }
-.hero-name { margin-top: .4em; color: var(--color-primary); font-size: clamp(2.432rem, 5.248vw, 4.224rem); line-height: 1.1; text-align: center; }
+.hero-title-line:not(.hero-name) { transform: translateY(-1em); }
+.hero-name { position: relative; top: -.267em; margin-top: .4em; color: var(--color-primary); font-size: calc(clamp(2.432rem, 5.248vw, 4.224rem) + 4px); line-height: 1.1; text-align: center; }
 .hero-name.is-entering { animation: hero-name-enter 4s cubic-bezier(.22, 1, .36, 1) both; }
 .hero-title-line.accent { color: inherit; }
 .hero-copy .lead { margin-top: 1.7rem; }
