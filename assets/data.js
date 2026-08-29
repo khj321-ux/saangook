@@ -19,16 +19,16 @@ window.SITE_DATA = {
   programs: [
     {
       id: "reading-philosophy",
-      title: "천천히 읽는 철학",
+      title: "서양철학사 읽기",
       category: "강의",
-      status: "모집중",
-      summary: "한 권의 철학서를 함께 천천히 읽고 질문을 나누는 4주 과정입니다.",
-      schedule: "2026. 9. 5 — 9. 26 · 매주 토요일",
-      host: "진행자 이름 (sample)",
-      fee: "참가비 준비 중",
+      status: "진행중",
+      summary: "러셀의 서양철학사를 읽는 5회 과정입니다.",
+      schedule: "2026. 6. 2 — 10. 13 · 5회",
+      host: "석기용",
+      fee: "무료",
       color: "#d8c5b4",
-      images: { main: null, gallery: [] },
-      description: ["어렵게 느껴졌던 철학 텍스트를 자신의 속도로 읽고, 서로의 질문을 경청합니다.", "세부 도서와 회차별 내용은 실제 프로그램 확정 후 안내할 예정입니다. 현재 내용은 화면 구성을 위한 sample data입니다."]
+      images: { main: "assets/images/programs/western-philosophy-history/main.webp", gallery: [], fit: "contain" },
+      description: ["러셀의 서양철학사를 읽는 5회 과정입니다.", "이 프로그램은 서초구 서리풀 커뮤니티 활성화 사업 지원으로 진행합니다."]
     },
     {
       id: "night-bookclub",
