@@ -62,7 +62,7 @@ function card(item, archive = false) {
 function bookingButtons() {
   return `<div class="button-row"><span class="button" aria-disabled="true" title="실제 네이버 예약 URL 준비 중">2시간 대관 예약하기</span><span class="button button--outline" aria-disabled="true" title="문의 방법 준비 중">3시간 이상 대관 문의</span></div><p class="notice">※ 실제 예약 URL과 문의 방법이 준비되면 연결됩니다.</p>`;
 }
-function pageHero(eyebrow, title, lead, className = "") { return `<section class="page-hero${className ? ` ${className}` : ""}"><div class="container"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="lead">${lead}</p></div></section>`; }
+function pageHero(eyebrow, title, lead, className = "", backLink = "") { return `<section class="page-hero${className ? ` ${className}` : ""}"><div class="container">${backLink}${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ""}<h1>${title}</h1><p class="lead">${lead}</p></div></section>`; }
 
 const main = document.querySelector("#main");
 const active = programs.filter(p => p.status !== "종료");
@@ -105,7 +105,8 @@ const renderers = {
       return;
     }
     document.title = `${item.title} | ${site.name}`;
-    main.innerHTML = `${pageHero(`${archive ? "ARCHIVE" : "PROGRAM"} · ${item.category}`, item.title, item.summary)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`, `--image-fit:${item.images?.fit || "cover"}`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : item.status === "모집중" ? `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>` : ""}</div></div></section><section class="section section--paper"><div class="container prose"><p class="eyebrow">DETAIL</p><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
+    const backLink = `<a class="text-link detail-back-link" href="${archive ? "archive.html" : "programs.html"}">← ${archive ? "아카이브로" : "프로그램으로"} 돌아가기</a>`;
+    main.innerHTML = `${pageHero("", item.title, item.summary, "", backLink)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`, `--image-fit:${item.images?.fit || "cover"}`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : item.status === "모집중" ? `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>` : ""}</div></div></section><section class="section section--paper"><div class="container prose"><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
   }
 };
 
