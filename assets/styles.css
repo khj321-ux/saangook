@@ -136,9 +136,13 @@ p { margin: 0; }
 
 .site-footer { padding: 4rem 0 2rem; background: var(--color-dark); color: white; }
 .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-.footer-info { color: rgba(255,255,255,.67); font-size: .88rem; }
+.footer-info { display: grid; gap: 1.5rem; color: rgba(255,255,255,.67); font-size: .88rem; }
 .footer-info strong { color: white; }
+.footer-info-group p + p { margin-top: .55rem; }
+.footer-map-button { min-height: 3.2rem; margin-top: 1rem; border-color: rgba(255,255,255,.72); color: white; }
 .copyright { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.5); font-size: .75rem; }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.footer-policy-link { border-bottom: 1px solid currentColor; cursor: default; }
 
 :focus-visible { outline: 3px solid var(--color-brown); outline-offset: 4px; }
 
@@ -175,6 +179,7 @@ p { margin: 0; }
   .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 2fr 1fr; min-height: 430px; }
   .gallery > :first-child { grid-column: 1 / 3; grid-row: auto; }
   .info-list li { grid-template-columns: 6.5rem 1fr; }
+  .footer-bottom { align-items: flex-start; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {

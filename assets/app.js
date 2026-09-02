@@ -24,9 +24,13 @@ document.body.insertAdjacentHTML("beforeend", `
   <footer class="site-footer">
     <div class="container footer-grid">
       <div><p class="eyebrow">A PLACE FOR THOUGHT</p><h2>${site.name}</h2></div>
-      <div class="footer-info"><p><strong>위치</strong><br>${site.address}</p><p><strong>연락</strong><br>${site.contact}</p><p><strong>운영</strong><br>${site.hours}</p></div>
+      <div class="footer-info">
+        <div class="footer-info-group"><p><strong>연락처</strong></p><p>전화번호<br>${site.contact}</p><p>이메일<br>이메일 준비 중</p></div>
+        <div class="footer-info-group"><p><strong>위치</strong></p><p>주소<br>${site.address}</p><span class="button button--outline footer-map-button" aria-disabled="true">네이버 지도에서 보기</span></div>
+        <div class="footer-info-group"><p><strong>예약 안내</strong><br>예약제로 운영됩니다.</p></div>
+      </div>
     </div>
-    <div class="container copyright">© 2026 ${site.name}. 현재 사이트의 이름, 이미지와 상세 정보는 placeholder 또는 sample입니다.</div>
+    <div class="container copyright footer-bottom"><span class="footer-policy-link" aria-disabled="true">개인정보처리방침</span><span>© 2026 SPACE SAANGOOK</span></div>
   </footer>`);
 
 const menuButton = document.querySelector(".menu-button");
