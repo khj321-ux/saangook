@@ -14,7 +14,7 @@ document.body.insertAdjacentHTML("afterbegin", `
     <div class="container header-inner">
       <button class="menu-button" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="site-nav">☰</button>
       <nav class="nav-wrap" id="site-nav" aria-label="주 메뉴">
-        <ul class="nav-list">${navItems.map(([key, label]) => `<li><a href="${routes[key]}" ${page === key || (page === "program-detail" && key === "programs") || (page === "archive-detail" && key === "archive") ? 'aria-current="page"' : ""}>${label}</a></li>`).join("")}</ul>
+        <ul class="nav-list">${navItems.map(([key, label]) => `<li><a href="${routes[key]}" ${page === key || ((page === "program-detail" || page === "apply") && key === "programs") || (page === "archive-detail" && key === "archive") ? 'aria-current="page"' : ""}>${label}</a></li>`).join("")}</ul>
         <a class="button header-cta" href="space.html#rental">대관 예약</a>
       </nav>
     </div>
@@ -56,7 +56,7 @@ function card(item, archive = false) {
   const href = archive ? `archive-detail.html?id=${item.id}` : `program.html?id=${item.id}`;
   return `<article class="card" data-category="${item.category}">
     <a href="${href}">${media(item.images?.main, "card-image", `${item.title} 대표 이미지`, `--card-color:${item.color};--image-fit:${item.images?.fit || "cover"}`)}<div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><h3>${item.title}</h3></a>
-    <p class="card-desc">${item.summary}</p><p class="card-info">${item.schedule}<br>${item.host}</p>
+    <p class="card-desc">${item.cardSummary || item.summary}</p><p class="card-info">${item.cardSchedule || item.schedule}<br>${item.cardInfo || item.host}</p>
   </article>`;
 }
 function bookingButtons() {
@@ -93,6 +93,47 @@ const renderers = {
   about() {
     main.innerHTML = `${pageHero("ABOUT", "공간의 이야기", "사람과 생각이 만나 오래 이어지는 인문·문화 공간을 지향합니다.")}<section class="section section--paper"><div class="container intro-grid"><div><p class="eyebrow">WHY WE ARE HERE</p><h2>서두르지 않는 대화가 필요한 이유</h2></div><div class="prose"><p class="lead">책을 읽고 질문을 나누며 서로 다른 관점을 환대하는 장소를 만들고자 합니다.</p><p>공간의 취지와 운영 방향, 운영 주체에 관한 최종 원고는 아직 준비되지 않았습니다. 현재 내용은 사이트의 분위기와 정보 배치를 확인하기 위한 placeholder입니다.</p></div></div></section><section class="section"><div class="container values"><article class="value"><span>01</span><h3>천천히 읽기</h3><p>빠른 결론보다 충분히 읽고 생각하는 시간을 존중합니다.</p></article><article class="value"><span>02</span><h3>서로의 질문</h3><p>정답을 찾기보다 각자의 질문이 이어지는 대화를 지향합니다.</p></article><article class="value"><span>03</span><h3>쌓이는 기록</h3><p>한 번의 행사를 넘어 활동의 과정과 이야기를 차곡차곡 남깁니다.</p></article></div></section><section class="section section--paper"><div class="container contact-grid"><div><p class="eyebrow">CONTACT</p><h2>연락하기</h2></div><ul class="info-list"><li><strong>운영 주체</strong><span>소개 준비 중</span></li><li><strong>연락처</strong><span>${site.contact}</span></li><li><strong>주소</strong><span>${site.address}</span></li></ul></div></section>`;
   },
+  apply() {
+    const id = new URLSearchParams(location.search).get("program");
+    const item = programs.find(program => program.id === id && program.status === "모집중");
+    if (!item) {
+      main.innerHTML = `${pageHero("APPLICATION", "신청할 프로그램을 찾을 수 없습니다.", "모집 중인 프로그램을 확인한 뒤 다시 선택해 주세요.", "page-hero--notice")}<section class="section"><div class="container"><a class="button" href="programs.html">프로그램 목록</a></div></section>`;
+      return;
+    }
+    const sessions = item.application?.sessions || [];
+    const backLink = `<a class="text-link detail-back-link" href="program.html?id=${encodeURIComponent(item.id)}">← 상세페이지로 돌아가기</a>`;
+    main.innerHTML = `${pageHero("APPLICATION", `${item.title} 신청`, item.summary, "", backLink)}<section class="section section--paper"><div class="container apply-grid"><div class="apply-summary"><p class="eyebrow">PROGRAM INFORMATION</p><h2>${item.title}</h2><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul></div><form class="apply-form"><div class="form-field"><label for="applicant-name">이름</label><input id="applicant-name" name="name" type="text" autocomplete="name" required></div><div class="form-field"><label for="applicant-contact">전화번호</label><input id="applicant-contact" name="contact" type="tel" autocomplete="tel" required></div><div class="form-field"><label for="applicant-email">이메일</label><input id="applicant-email" name="email" type="email" autocomplete="email" required></div><fieldset class="form-field session-field" aria-describedby="session-error"><legend>신청 회차</legend><details class="session-picker"><summary><span data-session-summary>회차를 선택해 주세요</span></summary><div class="session-options"><label class="session-option"><input type="checkbox" name="sessions" value="all" data-session-all><span>전체 신청</span></label>${sessions.map(session => `<label class="session-option"><input type="checkbox" name="sessions" value="${session.id}" data-session-item><span>${[session.number, session.title].filter(Boolean).join(" ")}<small>${session.schedule}</small></span></label>`).join("")}</div></details><p class="form-error" id="session-error" hidden>신청 회차를 하나 이상 선택해 주세요.</p></fieldset><label class="consent-field"><input name="privacyConsent" type="checkbox" required><span>개인정보 수집·이용에 동의합니다.</span></label><button class="button" type="submit">신청 제출하기</button><p class="form-message" role="status" aria-live="polite" hidden>현재는 신청 기능 테스트 단계입니다.</p></form></div></section>`;
+    const form = document.querySelector(".apply-form");
+    const allSession = form.querySelector("[data-session-all]");
+    const individualSessions = [...form.querySelectorAll("[data-session-item]")];
+    const sessionPicker = form.querySelector(".session-picker");
+    const sessionSummary = form.querySelector("[data-session-summary]");
+    const sessionError = form.querySelector(".form-error");
+    const updateSessionSummary = () => {
+      const selectedCount = individualSessions.filter(session => session.checked).length;
+      sessionSummary.textContent = allSession.checked ? "전체 신청" : selectedCount ? `${selectedCount}개 회차 선택` : "회차를 선택해 주세요";
+    };
+    allSession.addEventListener("change", () => {
+      if (allSession.checked) individualSessions.forEach(session => session.checked = false);
+      sessionError.hidden = true;
+      updateSessionSummary();
+    });
+    individualSessions.forEach(session => session.addEventListener("change", () => {
+      if (session.checked) allSession.checked = false;
+      sessionError.hidden = true;
+      updateSessionSummary();
+    }));
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      if (![allSession, ...individualSessions].some(session => session.checked)) {
+        sessionError.hidden = false;
+        sessionPicker.open = true;
+        sessionPicker.querySelector("summary").focus();
+        return;
+      }
+      document.querySelector(".form-message").hidden = false;
+    });
+  },
   detail(archive = false) {
     const id = new URLSearchParams(location.search).get("id");
     const item = programs.find(p => p.id === id);
@@ -106,7 +147,9 @@ const renderers = {
     }
     document.title = `${item.title} | ${site.name}`;
     const backLink = `<a class="text-link detail-back-link" href="${archive ? "archive.html" : "programs.html"}">← ${archive ? "아카이브로" : "프로그램으로"} 돌아가기</a>`;
-    main.innerHTML = `${pageHero("", item.title, item.summary, "", backLink)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`, `--image-fit:${item.images?.fit || "cover"}`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : item.status === "모집중" ? `<span class="button" aria-disabled="true">신청 준비 중</span><p class="notice">실제 신청 시스템은 1단계 범위에 포함되지 않습니다.</p>` : ""}</div></div></section><section class="section section--paper"><div class="container prose"><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div></section>`;
+    const sessions = item.application?.sessions || [];
+    const sessionLectures = !archive && sessions.length > 1 && sessions.some(session => session.description?.trim()) ? `<div class="session-lectures"><h2>회차별 강의</h2><div class="lecture-list">${sessions.filter(session => session.description?.trim()).map(session => `<details class="lecture-item"><summary><strong>${[session.number, session.title].filter(Boolean).join(" ")}</strong><span class="lecture-meta"><span>${session.schedule}</span>${session.host ? `<span>${session.host}</span>` : ""}</span></summary><p>${session.description}</p></details>`).join("")}</div></div>` : "";
+    main.innerHTML = `${pageHero("", item.title, item.summary, "", backLink)}<section class="section"><div class="container detail-grid">${media(item.images?.main, "detail-image", `${item.title} 대표 이미지`, `--image-fit:${item.images?.fit || "cover"}`)}<div class="detail-copy"><div class="card-meta"><span>${item.category}</span><span class="status">${item.status}</span></div><ul class="info-list"><li><strong>일정</strong><span>${item.schedule}</span></li><li><strong>장소</strong><span>${site.name}</span></li><li><strong>진행자</strong><span>${item.host}</span></li><li><strong>참가비</strong><span>${item.fee}</span></li></ul>${archive ? `<a class="button button--outline" href="archive.html">지난 프로그램 목록</a>` : item.status === "모집중" ? `<a class="button" href="apply.html?program=${encodeURIComponent(item.id)}">신청하기</a>` : ""}</div></div></section><section class="section section--paper"><div class="container"><div class="prose"><h2>${archive ? "프로그램 기록" : "프로그램 소개"}</h2>${item.description.map(p => `<p>${p}</p>`).join("")}</div>${sessionLectures}</div></section>`;
   }
 };
 
