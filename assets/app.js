@@ -23,11 +23,11 @@ document.body.insertAdjacentHTML("afterbegin", `
 document.body.insertAdjacentHTML("beforeend", `
   <footer class="site-footer">
     <div class="container footer-grid">
-      <div><p class="eyebrow">A PLACE FOR THOUGHT</p><h2>${site.name}</h2></div>
+      <div><p class="eyebrow">A PLACE TO GATHER</p><h2>${site.name}</h2></div>
       <div class="footer-info">
-        <div class="footer-info-group"><p><strong>연락처</strong></p><p>전화번호<br>${site.contact}</p><p>이메일<br>이메일 준비 중</p></div>
-        <div class="footer-info-group"><p><strong>위치</strong></p><p>주소<br>${site.address}</p><a class="button button--outline footer-map-button" href="https://naver.me/xJcjYfT4" target="_blank" rel="noopener noreferrer">네이버 지도에서 보기</a></div>
-        <div class="footer-info-group"><p><strong>예약 안내</strong><br>예약제로 운영됩니다.</p></div>
+        <div class="footer-info-group"><p><strong>연락처</strong></p><p>${site.contact}<br>이메일 준비 중</p></div>
+        <div class="footer-info-group"><p><strong>위치</strong></p><p>${site.address}</p><a class="button button--outline footer-map-button" href="https://naver.me/xJcjYfT4" target="_blank" rel="noopener noreferrer">네이버 지도에서 보기</a></div>
+        <p class="footer-reservation-note">스페이스 산국은 예약제로 운영됩니다.</p>
       </div>
     </div>
     <div class="container copyright footer-bottom"><span class="footer-policy-link" aria-disabled="true">개인정보처리방침</span><span>© 2026 SPACE SAANGOOK</span></div>
